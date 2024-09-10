@@ -1,4 +1,5 @@
-import { classify } from "../lib/decisionTree";
+import { classify as classifyLocal } from "@/lib/training-local";
+import { classify as classifyLib } from "@/lib/training-ml-cart";
 
 // Definisikan interface untuk data yang akan diklasifikasikan
 interface TestData {
@@ -9,16 +10,18 @@ interface TestData {
 
 export default function Home() {
   // Data contoh untuk diklasifikasikan
-  const testData: TestData = { color: "red", shape: "round", size: "medium" };
+  const testData: TestData = { color: "yellow", shape: "long", size: "large" };
 
   // Klasifikasikan data
-  const result = classify(testData);
+  const resultLocal = classifyLocal(testData);
+  const resultLib = classifyLib(testData);
 
   return (
     <div>
       <h1>Decision Tree Classification Result</h1>
       <p>Data: {JSON.stringify(testData)}</p>
-      <p>Classification Result: {result}</p>
+      <p>Classification Result (Local Algorithm): {resultLocal}</p>
+      <p>Classification Result (ML Cart Library): {resultLib}</p>
     </div>
   );
 }
