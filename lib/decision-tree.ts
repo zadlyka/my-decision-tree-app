@@ -112,3 +112,21 @@ export const buildTree = (
 
   return tree;
 };
+
+// Fungsi untuk normalisasi data
+export const normalizeData = (data: number[][]): number[][] => {
+  // Menghitung min dan max untuk setiap fitur
+  const minValues = data[0].map((_, i) =>
+    Math.min(...data.map((row) => row[i]))
+  );
+  const maxValues = data[0].map((_, i) =>
+    Math.max(...data.map((row) => row[i]))
+  );
+
+  // Normalisasi data
+  return data.map((row) =>
+    row.map(
+      (value, i) => (value - minValues[i]) / (maxValues[i] - minValues[i])
+    )
+  );
+};

@@ -1,6 +1,6 @@
 // training.ts
 
-import { TreeNode, buildTree } from "./decision-tree";
+import { TreeNode, buildTree, normalizeData } from "./decision-tree";
 
 // Mappings untuk enkoding fitur
 const colorMap: Record<string, number> = {
@@ -61,8 +61,12 @@ const trainingData = [
 
 // Encode data dan label
 const [encodedData, encodedLabels] = encodeDataWithLabels(trainingData);
+
+// Normalisasi data
+const normalizedData = normalizeData(encodedData);
+
 const featureIndices = [0, 1, 2]; // Indeks fitur
-const decisionTree = buildTree(encodedData, encodedLabels, featureIndices);
+const decisionTree = buildTree(normalizedData, encodedLabels, featureIndices);
 
 // Fungsi untuk melakukan prediksi
 export const classify = (data: {
@@ -71,7 +75,8 @@ export const classify = (data: {
   size: string;
 }): string => {
   const encodedTestData = encodeCategoricalFeatures([data])[0];
-  const result = predict(encodedTestData);
+  const normalizedTestData = normalizeData([encodedTestData]); // Normalisasi data uji
+  const result = predict(normalizedTestData[0]);
   return inverseLabelMap[result];
 };
 
